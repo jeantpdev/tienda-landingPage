@@ -1,0 +1,20 @@
+---
+const { titulo, descripcion, img } = Astro.props;
+---
+
+<!-- service block -->
+<div class="py-8 px-2 mb-12 h-58 w-80 bg-gray-50 border-b border-gray-100 transform transition duration-300 ease-in-out hover:-translate-y-2">
+    <div class="inline-block text-gray-900 mb-4">
+        <!-- icon -->
+        <img
+            class="h-36"
+            src={img}
+            alt="imagen"
+        />
+    </div>
+    <h3 class="text-lg leading-normal mb-2 font-semibold text-black">
+        {titulo}
+    </h3>
+    <p class="text-gray-500">{descripcion}</p>
+</div>
+<!-- end service block -->

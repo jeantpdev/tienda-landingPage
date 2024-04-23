@@ -1,0 +1,30 @@
+---
+import Producto from '@/components/Producto.astro';
+import Layout from '../layouts/Layout.astro';
+import productos from "@/data/productos.json"
+
+---
+
+<Layout title="Welcome to Astro.">
+	<div class="mt-12">
+
+		<div class="flex flex-col space-y-10 items-center mt-20 mb-20 text-center px-4 md:max-w-4xl md:justify-center md:mx-auto">
+			<h1 class="text-5xl tracking-tight font-extrabold text-gray-800 sm:text-5xl text-center">
+				<span class="block xl:inline">Escoge el que mas te guste!</span>
+			</h1>
+			<p class="text-slate-400 text-xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit voluptatem dolor quo asperiores, dolorem dolores harum aliquid. Placeat, asperiores necessitatibus?</p>
+		</div>
+
+			<div class="flex flex-col gap-5 mt-12 mb-12 px-5 md:grid md:grid-cols-2 lg:mx-auto lg:max-w-7xl lg:grid-cols-3">
+			{productos.map((producto) => {
+				return <Producto 
+						imagen_principal = {producto.imagen_principal}
+						nombre_producto = {producto.nombre_producto} 
+						descripcion = {producto.descripcion} 
+						precio = {producto.precio}
+						id_producto = {producto.id_producto}
+						 />
+			})}
+		</div>
+	</div>
+</Layout>

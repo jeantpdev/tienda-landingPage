@@ -1,0 +1,27 @@
+---
+const {titulo, color, precio, cantidad} = Astro.props
+---
+
+<div class="flex">
+    <div class="flex w-full p-5 justify-between">
+        <!-- IMAGEN Y DESCRIPCION -->
+        <div class="flex gap-x-5">
+            <figure>
+                <img src="/productos/producto-1.jpeg" class="h-36" alt="">
+            </figure>
+            <div class="flex flex-col">
+                <div>
+                    <p>Nombre: {titulo}</p>
+                    <p>Color: {color}</p>
+                    <p>Cantidad: {cantidad}</p>
+                </div>
+                <p>Precio: {precio} COP</p>
+            </div>
+        </div>
+        <!-- BOTON DE ELIMINAR PRODUCTO -->
+        <div>
+            <a href="">X</a>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,76 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Galeria from '@/components/componentes-productos/Galeria';
+import IndexActual from '@/components/componentes-productos/index-actual.astro';
+import productos from "@/data/productos.json"
+
+export async function getStaticPaths(){
+    return productos.map((producto) => ({
+        params: {
+            id: producto.id_producto
+        },
+        props: {
+            producto: producto
+        },
+    }))
+}
+
+const { imagen_principal, imagenes_productos, nombre_producto, descripcion, precio, dimensiones, colores, material, id_producto } = Astro.props.producto
+
+---
+
+<Layout title = "Detalles">
+    <div class="px-5 py-10 space-y-5 md:py-20 md:max-w-xl lg:max-w-6xl md:mx-auto">
+        <!-- Pagina actual --> 
+        <IndexActual nombreProducto = {nombre_producto}/>
+        <!-- Imagenes, descripcion, de todo. -->
+        <div class="lg:grid lg:grid-cols-2 space-x-1">
+            <!-- CONTENEDOR DE IMAGENES -->
+            <Galeria imagen_principal = {imagen_principal} imagenes_productos = {imagenes_productos} client:load />
+
+            <!-- FIN CONTENEDOR DE IMAGENES -->
+
+            <div class="lg:flex lg:flex-col  mt-5 lg:mt-0 space-y-5">
+                <!--DETALLES PRINCIPALES -->
+                <div>
+                    <p class="text-slate-400 text-md">Categoria producto</p>
+                    <h2 class="text-2xl font-semibold text-slate-700">{nombre_producto}</h2>
+                </div>
+
+                <!-- Descripcion del producto -->
+                <div class="text-slate-600 space-y-5">
+                    <p class="text-lg">{descripcion}</p>
+                    <div>
+                        <p class="text-slate-700 text-md"><span class="font-semibold">Dimensiones:</span> {dimensiones}</p>
+                        <p class="text-slate-700 text-md"><span class="font-semibold">Material:</span> {material}</p>
+                    </div>
+                    <!-- SI EXISTEN COLORES, SE VISUALIZARAN -->
+                    {
+                        colores && 
+                        <div class="space-y-2">
+                            <p class="font-semibold">Colores disponibles:</p>
+                            <div class="flex gap-x-2">
+                                <div class="w-[20px] h-[20px] bg-blue-500"></div>
+                                <div class="w-[20px] h-[20px] bg-yellow-500"></div>
+                                <div class="w-[20px] h-[20px] bg-slate-500"></div>
+                                <div class="w-[20px] h-[20px] bg-red-500"></div>
+                            </div>
+                        </div>
+                    }
+ 
+                </div>
+
+                <!-- Precio, cantidades, otros. -->
+                <div>
+                    <p class="text-slate-700 font-semibold text-xl">$ {precio} COP</p>
+                </div>
+                <!-- Agregar al carrito -->
+                <div>
+                    <a href="#" class="w-full inline items-center justify-end px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 md:py-2 md:text-lg md:px-10">
+                        Agregar al carrito
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>

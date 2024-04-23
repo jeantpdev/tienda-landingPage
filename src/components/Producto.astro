@@ -1,0 +1,18 @@
+---
+const {imagen_principal, nombre_producto, descripcion, precio, id_producto } = Astro.props
+---
+
+<div class="flex flex-col gap-1 rounded-md shadow-lg">
+			
+    <div>
+        <img src={imagen_principal} class="w-full h-96 object-cover" alt="">
+    </div>
+    <div class="px-5">
+        <a href={`/infoProductos/${id_producto}`} class="text-xl font-bold tracking-wide leading-loose text-zinc-700">{nombre_producto}</a>
+        <p class="text-slate-500">{descripcion}</p>
+    </div>
+    <div class="p-2 text-end mb-2">
+        <p class="font-semibold tracking-tight inline bg-pink-50 p-2 rounded-md text-pink-400">$ {precio}</p>	
+    </div>
+
+</div>
