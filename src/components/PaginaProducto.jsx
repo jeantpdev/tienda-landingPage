@@ -4,6 +4,7 @@ import Galeria from '@/components/componentes-productos/Galeria';
 import IndexActual from '@/components/componentes-productos/indexActual';
 
 export default function PaginaProducto(props) {
+
   return (
     <div class="px-5 py-10 space-y-5 md:py-20 md:max-w-xl lg:max-w-6xl md:mx-auto">
     <IndexActual nombreProducto = {props.nombre_producto}/>
@@ -50,5 +51,6 @@ export default function PaginaProducto(props) {
         </div>
     </div>
 </div>
+
   )
 }

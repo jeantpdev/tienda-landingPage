@@ -28,7 +28,11 @@ export default function Navigation({ currentPage }) {
           </div>
 
           {/* Mobile menu button*/}
-          <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
+          <div className="absolute inset-y-0 right-0 flex items-center space-x-2 sm:hidden">
+              <div className='grid items-center'>
+                <a href="/checkout/" arial-label = "Icono de carrito de compras que redirecciona al checkout"><img src="/shopping-cart.svg" className='h-8 w-auto' alt="" /></a>
+              </div>
+
             <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
@@ -53,6 +57,9 @@ export default function Navigation({ currentPage }) {
                   {item.name}
                 </a>
               ))}
+              <div className='grid items-center'>
+                  <a href="/checkout/" arial-label = "Icono de carrito de compras que redirecciona al checkout"><img src="/shopping-cart.svg" className='h-8 w-auto' alt="" /></a>
+              </div>
             </div>
           </div>
         </div>
