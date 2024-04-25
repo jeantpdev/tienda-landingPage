@@ -12,7 +12,7 @@ const {imagen_principal, nombre_producto, descripcion, precio, id_producto } = A
         <p class="text-slate-500">{descripcion}</p>
     </div>
     <div class="p-2 text-end mb-2">
-        <p class="font-semibold tracking-tight inline bg-pink-50 p-2 rounded-md text-pink-400">$ {precio}</p>	
+        <p class="font-semibold tracking-tight inline bg-pink-50 p-2 rounded-md text-pink-400">$ {precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p>	
     </div>
 
 </div>

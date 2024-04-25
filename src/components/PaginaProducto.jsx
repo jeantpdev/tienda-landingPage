@@ -44,7 +44,6 @@ export default function PaginaProducto(props) {
         // Guardar el carrito actualizado en localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
 
-        alert('Producto añadido al carrito:', productData['nombre_producto']);
         console.log('Producto añadido al carrito:', productData['nombre_producto']);
 
     };
@@ -55,7 +54,7 @@ export default function PaginaProducto(props) {
 
     <div className="lg:grid lg:grid-cols-2 space-x-1">
 
-        <Galeria imagen_principal = {props.imagen_principal} imagenes_productos = {props.imagenes_productos} client:load />
+        <Galeria imagen_principal = {props.imagen_principal} imagenes_productos = {props.imagenes_productos} nombre_producto = {props.nombre_producto} client:load />
 
         <div className="lg:flex lg:flex-col  mt-5 lg:mt-0 space-y-5">
             <div>
@@ -85,7 +84,7 @@ export default function PaginaProducto(props) {
             </div>
 
             <div>
-                <p className="text-slate-700 font-semibold text-xl">$ {props.precio} COP</p>
+                <p className="text-slate-700 font-semibold text-xl">$ {props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })} COP</p>
             </div>
 
             <div>

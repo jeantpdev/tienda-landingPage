@@ -2,18 +2,22 @@ import React from 'react'
 
 
 export default function ProductoCheckout({children, props}) {
-    console.log(props)
+
+    const calcularPrecio = (cantidad, precio) => {
+        return precio * cantidad
+    }
+
   return (
     <div className='flex justify-between items-start'>
         <div className='flex gap-5'>
             <figure>
-                <img src={props.imagen_principal} className="h-36" alt={props.nombre_producto} />
+                <img src={props.imagen_principal} className="h-20" alt={props.nombre_producto} />
             </figure>
             <div className="flex flex-col">
-                <p>Nombre: {props.nombre_producto}</p>
-                <p>Material: {props.material}</p>
-                <p>Cantidad: {props.cantidad}</p>
-                <p>Precio: {props.precio} COP</p>
+                <p className='font-semibold tracking-tight leading-tight'>{props.nombre_producto}</p>
+                <p className='text-sm text-slate-500'>Material: {props.material}</p>
+                <p className='text-sm text-slate-500'>x {props.cantidad}</p>
+                <p className='text-sm text-slate-500'>{calcularPrecio(props.cantidad, props.precio)} COP</p>
             </div>
         </div>
 
