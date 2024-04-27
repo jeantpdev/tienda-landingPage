@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { showAlert } from '@/utils/Alerts.jsx';
 import Galeria from '@/components/componentes-productos/Galeria';
 import IndexActual from '@/components/componentes-productos/indexActual';
 
@@ -27,6 +27,7 @@ export default function PaginaProducto(props) {
         });
     }, [props]);
 
+
     const addToCart = () => {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -36,9 +37,11 @@ export default function PaginaProducto(props) {
         // Si el producto ya está en el carrito, aumentar la cantidad en 1
         if (existingProductIndex !== -1) {
             cart[existingProductIndex].quantity += 1;
+            showAlert("Se agrego una cantidad!")
         } else {
             // Si el producto no está en el carrito, agregarlo con cantidad 1
             cart.push({ ...productData, quantity: 1 });
+            showAlert("Producto agregado!")
         }
 
         // Guardar el carrito actualizado en localStorage

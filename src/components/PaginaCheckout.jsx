@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductoCheckout from './componentes-checkout/ProductoCheckout';
+import { showConfirmDialog, showAlert } from '@/utils/Alerts.jsx';
 
 export default function Carrito() {
     const [cart, setCart] = useState([]);
@@ -22,6 +23,7 @@ export default function Carrito() {
     const clearCart = () => {
         setCart([]);
         localStorage.removeItem('cart');
+        window.location.href = window.location.href;
     };
 
     const calcularPrecioTotal = (cart) => {
