@@ -29,13 +29,23 @@ export default function Carrito() {
     const calcularPrecioTotal = (cart) => {
         let total = 0;
         cart.forEach(producto => {
-            // Convierte el precio a número decimal
+            // Convierte el precio y el descuento a números decimales
             const precioNumerico = parseFloat(producto.precio);
-            total += precioNumerico * producto.quantity;
+            const descuentoNumerico = parseFloat(producto.descuento);
+            
+            if (descuentoNumerico != 0) {
+                const precioConDescuento = precioNumerico * (1 - (descuentoNumerico / 100));
+                total += precioConDescuento * producto.quantity;
+                console.log(total)
+            } else {
+                total += precioNumerico * producto.quantity;
+                console.log(total)
+            }
         });
+        
         const precioFormateado = total.toLocaleString('es-PE', { style: 'currency', currency: 'COP' }); 
         setPrecioTotal(precioFormateado);
-    };
+    };    
     
 
     return (
@@ -96,6 +106,7 @@ export default function Carrito() {
                                         material: product.material,
                                         cantidad: product.quantity,
                                         precio: product.precio,
+                                        descuento: product.descuento,
                                         index: index,
                                         }}> 
 

@@ -12,6 +12,7 @@ export default function PaginaProducto(props) {
         dimensiones: '',
         material:'',
         precio:'',
+        descuento:''
     });
 
     useEffect(() => {
@@ -24,11 +25,13 @@ export default function PaginaProducto(props) {
             dimensiones: props.dimensiones,
             material: props.material,
             precio: props.precio,
+            descuento: props.descuento
         });
     }, [props]);
 
 
     const addToCart = () => {
+        console.log(productData)
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Buscar si el producto ya está en el carrito
