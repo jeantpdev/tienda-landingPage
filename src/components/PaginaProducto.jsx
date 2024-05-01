@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { showAlert } from '@/utils/Alerts.jsx';
 import Galeria from '@/components/componentes-productos/Galeria';
 import IndexActual from '@/components/componentes-productos/indexActual';
+import { convertirAMoneda } from '@/utils/Funct.jsx';
 
 export default function PaginaProducto(props) {
 
@@ -106,8 +107,15 @@ export default function PaginaProducto(props) {
             </div>
 
             <div className='space-y-2'>
-                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {calcularPrecio(props.precio, props.descuento).toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p>
-                <p className="text-slate-400 line-through font-semibold text-xs">$ {props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })} COP</p>
+                {(props.descuento != 0 ?
+                <div> 
+                    <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecio(props.precio, props.descuento))} {<span className='text-xs bg-emerald-50 p-2 text-emerald-500'>-{props.descuento}%</span>} </p>
+                    <p className="text-slate-400 line-through font-semibold text-xs">$ {convertirAMoneda(props.precio)} COP</p>
+                </div>
+                :
+                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecio(props.precio, props.descuento))} </p>
+
+            )}
             </div>
 
             <div>

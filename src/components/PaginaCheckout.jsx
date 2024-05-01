@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductoCheckout from './componentes-checkout/ProductoCheckout';
 import { showConfirmDialog, showAlert } from '@/utils/Alerts.jsx';
+import { convertirAMoneda } from '@/utils/Funct.jsx';
 
 export default function Carrito() {
     const [cart, setCart] = useState([]);
@@ -43,7 +44,7 @@ export default function Carrito() {
             }
         });
         
-        const precioFormateado = total.toLocaleString('es-PE', { style: 'currency', currency: 'COP' }); 
+        const precioFormateado = convertirAMoneda(total); 
         setPrecioTotal(precioFormateado);
     };    
     
