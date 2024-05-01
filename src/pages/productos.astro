@@ -1,5 +1,5 @@
 ---
-import Producto from '@/components/Producto.astro';
+import Producto from '@/components/componentes-productos/Producto.jsx';
 import Layout from '../layouts/Layout.astro';
 import productos from "@/data/productos.json"
 const title = "Productos";
@@ -20,9 +20,11 @@ const title = "Productos";
 			{productos.map((producto) => {
 				return <Producto 
 						imagen_principal = {producto.imagen_principal}
+						categoria = {producto.categoria}
 						nombre_producto = {producto.nombre_producto} 
 						descripcion = {producto.descripcion} 
 						precio = {producto.precio}
+						descuento = {producto.descuento}
 						id_producto = {producto.id_producto}
 						 />
 			})}

@@ -2,21 +2,22 @@
         {
             "id_producto" : "1",
             "nombre_producto": "Collar",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola Collar con tu nombre",
             "precio": 120000,
-            "descuento": 0,
+            "descuento": 12,
             "imagen_principal" : "/productos/producto-1.jpeg",
             "imagenes_productos" : ["/productos/producto-1.jpeg", "/productos/producto-2.jpeg", "/productos/producto-3.jpeg", "/productos/producto-4.jpeg", "/productos/producto-5.jpeg", "/productos/producto-6.jpeg"],
             "dimensiones": "7 ancho x 6 alto",
-            "colores": ["Rojo", "Dorado", "Plateado", "Gris"],
             "material": "Cuero"
         },
         {
             "id_producto" : "2",
             "nombre_producto": "Anillo",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola De distintos colores y formas",
             "precio": 50000,
-            "descuento": 12,
+            "descuento": 0,
             "imagen_principal" : "/productos/producto-2.jpeg",
             "imagenes_productos" : ["/productos/producto-1.jpeg", "/productos/producto-2.jpeg", "/productos/producto-3.jpeg", "/productos/producto-4.jpeg", "/productos/producto-5.jpeg", "/productos/producto-6.jpeg"],
             "dimensiones": "7 ancho x 6 alto",
@@ -26,9 +27,10 @@
         {
             "id_producto" : "3",
             "nombre_producto": "Sarcillos",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola Variedad de tamanos",
             "precio": 20000,
-            "descuento": 12,
+            "descuento": 0,
             "imagen_principal" : "/productos/producto-3.jpeg",
             "imagenes_productos" : ["/productos/producto-1.jpeg", "/productos/producto-2.jpeg", "/productos/producto-3.jpeg", "/productos/producto-4.jpeg", "/productos/producto-5.jpeg", "/productos/producto-6.jpeg"],
             "dimensiones": "7 ancho x 6 alto",
@@ -38,6 +40,7 @@
         {
             "id_producto" : "4",
             "nombre_producto": "Accesorios",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola Para todo tipo de piel",
             "precio": 20000,
             "descuento": 12,
@@ -50,25 +53,25 @@
         {
             "id_producto" : "5",
             "nombre_producto": "Collar",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola Con formas personalizadas",
             "precio": 30000,
             "descuento": 12,
             "imagen_principal" : "/productos/producto-5.jpeg",
             "imagenes_productos" : ["/productos/producto-1.jpeg", "/productos/producto-2.jpeg", "/productos/producto-3.jpeg", "/productos/producto-4.jpeg", "/productos/producto-5.jpeg", "/productos/producto-6.jpeg"],
             "dimensiones": "7 ancho x 6 alto",
-            "colores": ["Rojo", "Dorado", "Plateado", "Gris"],
             "material": "Cuero"
         },
         {
             "id_producto" : "6",
             "nombre_producto": "Anillo",
+            "categoria": "Joyeria",
             "descripcion": "Este es un texto de prueba para poder visualizarlo al presionar en la imagen o el titulo de un producto y muestra esta informacion xd, solo es prueba. hola De compromiso",
             "precio": 1200000,
-            "descuento": 12,
+            "descuento": 0,
             "imagen_principal" : "/productos/producto-6.jpeg",
             "imagenes_productos" : ["/productos/producto-1.jpeg", "/productos/producto-2.jpeg", "/productos/producto-3.jpeg", "/productos/producto-4.jpeg", "/productos/producto-5.jpeg", "/productos/producto-6.jpeg"],
             "dimensiones": "7 ancho x 6 alto",
-            "colores": ["Rojo", "Dorado", "Plateado", "Gris"],
             "material": "Cuero"
         }
     
