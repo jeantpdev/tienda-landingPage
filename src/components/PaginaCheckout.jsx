@@ -37,15 +37,12 @@ export default function Carrito() {
             if (descuentoNumerico != 0) {
                 const precioConDescuento = precioNumerico * (1 - (descuentoNumerico / 100));
                 total += precioConDescuento * producto.quantity;
-                console.log(total)
             } else {
                 total += precioNumerico * producto.quantity;
-                console.log(total)
             }
         });
         
-        const precioFormateado = convertirAMoneda(total); 
-        setPrecioTotal(precioFormateado);
+        setPrecioTotal(convertirAMoneda(total));
     };    
     
 

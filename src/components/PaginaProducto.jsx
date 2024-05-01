@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { showAlert } from '@/utils/Alerts.jsx';
 import Galeria from '@/components/componentes-productos/Galeria';
 import IndexActual from '@/components/componentes-productos/indexActual';
-import { convertirAMoneda } from '@/utils/Funct.jsx';
+import { convertirAMoneda, calcularPrecioConDescuento } from '@/utils/Funct.jsx';
 
 export default function PaginaProducto(props) {
 
@@ -32,7 +32,6 @@ export default function PaginaProducto(props) {
 
 
     const addToCart = () => {
-        console.log(productData)
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Buscar si el producto ya está en el carrito
@@ -52,24 +51,7 @@ export default function PaginaProducto(props) {
         localStorage.setItem('cart', JSON.stringify(cart));
 
         console.log('Producto añadido al carrito:', productData['nombre_producto']);
-
     };
-
-    const calcularPrecio = (precio, descuento) => {
-        const precioNumerico = parseFloat(precio);
-        const descuentoNumerico = parseFloat(descuento);
-        let precioFinal = 0;
-        if (descuentoNumerico != 0) {
-
-            const precioConDescuento = precioNumerico * (1 - descuentoNumerico / 100);
-            precioFinal = precioConDescuento
-            return precioFinal
-
-        } else {
-            precioFinal = precio
-            return precioFinal
-        }
-    }
 
   return (
     <div className="px-5 py-10 space-y-5 md:py-20 md:max-w-xl lg:max-w-6xl md:mx-auto">
@@ -81,7 +63,7 @@ export default function PaginaProducto(props) {
 
         <div className="lg:flex lg:flex-col  mt-5 lg:mt-0 space-y-5">
             <div>
-                <p className="text-slate-400 text-md">Categoria producto</p>
+                <p className="text-slate-400 text-md">{props.categoria}</p>
                 <h2 className="text-2xl font-semibold text-slate-700">{props.nombre_producto}</h2>
             </div>
 
@@ -109,11 +91,11 @@ export default function PaginaProducto(props) {
             <div className='space-y-2'>
                 {(props.descuento != 0 ?
                 <div> 
-                    <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecio(props.precio, props.descuento))} {<span className='text-xs bg-emerald-50 p-2 text-emerald-500'>-{props.descuento}%</span>} </p>
+                    <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} {<span className='text-xs bg-emerald-50 p-2 text-emerald-500'>-{props.descuento}%</span>} </p>
                     <p className="text-slate-400 line-through font-semibold text-xs">$ {convertirAMoneda(props.precio)} COP</p>
                 </div>
                 :
-                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecio(props.precio, props.descuento))} </p>
+                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} </p>
 
             )}
             </div>
