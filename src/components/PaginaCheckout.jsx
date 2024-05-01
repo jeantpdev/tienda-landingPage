@@ -49,10 +49,10 @@ export default function Carrito() {
     
 
     return (
-        <div className="max-w-2xl mx-auto py-10 px-5 space-y-5 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:space-x-20">
+        <div className="grid max-w-2xl mx-auto py-10 px-5 space-y-5 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:space-x-20">
 
             {/* Formulario */}
-            <div>
+            <div className='order-2 lg:order-1'>
                 <div className="p-5">
                     <form action="" className="flex flex-col space-y-2">
                         <label htmlFor="" className='font-semibold'>Nombre</label>
@@ -80,7 +80,7 @@ export default function Carrito() {
                 </div>
             </div>
 
-            <div className='space-y-5'>
+            <div className='order-1 lg:order-2 space-y-5'>
                 {/* Carrito de compras, Header */}
                 <div className='flex justify-between border-b'>
                     <div>
