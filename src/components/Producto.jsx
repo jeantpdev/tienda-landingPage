@@ -30,7 +30,7 @@ export default function Producto(props) {
                 <p class="text-slate-500">{props.descripcion}</p>
             </div>
             <div class="p-2 text-end mb-2 space-x-2">
-                {props.descuento != 0 && <p class="inline-flex text-xs font-semibold tracking-tight p-2 rounded-md text-pink-400 line-through">{props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p> } 
+                {props.descuento != 0 && <p class="inline-flex text-xs font-semibold tracking-tight rounded-md text-pink-400 line-through">{props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p> } 
                 <p class="inline-flex font-semibold tracking-tight bg-pink-50 p-2 rounded-md text-pink-400">$ {calcularPrecio(props.precio, props.descuento).toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p>
             </div>
 

@@ -54,6 +54,22 @@ export default function PaginaProducto(props) {
 
     };
 
+    const calcularPrecio = (precio, descuento) => {
+        const precioNumerico = parseFloat(precio);
+        const descuentoNumerico = parseFloat(descuento);
+        let precioFinal = 0;
+        if (descuentoNumerico != 0) {
+
+            const precioConDescuento = precioNumerico * (1 - descuentoNumerico / 100);
+            precioFinal = precioConDescuento
+            return precioFinal
+
+        } else {
+            precioFinal = precio
+            return precioFinal
+        }
+    }
+
   return (
     <div className="px-5 py-10 space-y-5 md:py-20 md:max-w-xl lg:max-w-6xl md:mx-auto">
     <IndexActual nombreProducto = {props.nombre_producto}/>
@@ -89,8 +105,9 @@ export default function PaginaProducto(props) {
 
             </div>
 
-            <div>
-                <p className="text-slate-700 font-semibold text-xl">$ {props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })} COP</p>
+            <div className='space-y-2'>
+                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {calcularPrecio(props.precio, props.descuento).toLocaleString('es-PE', { style: 'currency', currency: 'COP' })}</p>
+                <p className="text-slate-400 line-through font-semibold text-xs">$ {props.precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })} COP</p>
             </div>
 
             <div>
