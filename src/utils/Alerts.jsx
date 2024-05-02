@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 
+
 export const showConfirmDialog = (message, finalMessage) => {
     Swal.fire({
         title: "¿Estás seguro?",
