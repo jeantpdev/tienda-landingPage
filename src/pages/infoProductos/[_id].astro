@@ -1,18 +1,25 @@
 ---
 import PaginaProducto from '@/components/PaginaProducto';
 import Layout from '../../layouts/Layout.astro';
-import productos from '@/data/productos.json';
+
+
 
 export async function getStaticPaths() {
+    const response = await fetch('http://127.0.0.1:5700/productos/');
+    const data = await response.json();
+    const productos = data.productos
+
     return productos.map((producto) => ({
         params: {
-            id: producto.id_producto,
+            _id: producto._id,
         },
         props: {
             producto: producto,
         },
     }));
 }
+
+const datos_productos = Astro.props['producto']
 
 const {
     imagen_principal,
@@ -25,11 +32,13 @@ const {
     dimensiones,
     colores,
     material,
-    id_producto,
-} = Astro.props.producto;
+    _id,
+} = datos_productos;
+
 ---
 
 <Layout title="Detalles">
+
     <PaginaProducto
         imagen_principal={imagen_principal} ,
         imagenes_productos={imagenes_productos},
@@ -41,8 +50,9 @@ const {
         dimensiones={dimensiones},
         colores={colores},
         material={material},
-        id_producto={id_producto}
+        _id={_id}
         client:load
     />
+
 </Layout>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" data-astro-rerun></script>

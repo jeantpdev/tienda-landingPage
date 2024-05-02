@@ -1,8 +1,12 @@
 ---
 import Producto from '@/components/componentes-productos/Producto.jsx';
 import Layout from '../layouts/Layout.astro';
-import productos from "@/data/productos.json"
+//import productos from "@/data/productos.json"
 const title = "Productos";
+
+const response = await fetch('http://127.0.0.1:5700/productos/');
+const data = await response.json();
+const productos = data.productos
 
 ---
 
@@ -25,7 +29,7 @@ const title = "Productos";
 						descripcion = {producto.descripcion} 
 						precio = {producto.precio}
 						descuento = {producto.descuento}
-						id_producto = {producto.id_producto}
+						_id = {producto._id}
 						 />
 			})}
 		</div>

@@ -7,7 +7,7 @@ import { convertirAMoneda, calcularPrecioConDescuento } from '@/utils/Funct.jsx'
 export default function PaginaProducto(props) {
 
     const [productData, setProductData] = useState({
-        id_producto: '',
+        _id: '',
         nombre_producto: '',
         descripcion: '',
         dimensiones: '',
@@ -19,7 +19,7 @@ export default function PaginaProducto(props) {
     useEffect(() => {
         // Actualizar el estado del producto cuando las props cambien
         setProductData({
-            id_producto: props.id_producto,
+            _id: props._id,
             imagen_principal: props.imagen_principal,
             nombre_producto: props.nombre_producto,
             descripcion: props.descripcion,
@@ -35,7 +35,7 @@ export default function PaginaProducto(props) {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Buscar si el producto ya está en el carrito
-        const existingProductIndex = cart.findIndex(product => product.id_producto === productData.id_producto);
+        const existingProductIndex = cart.findIndex(product => product._id === productData._id);
 
         // Si el producto ya está en el carrito, aumentar la cantidad en 1
         if (existingProductIndex !== -1) {

@@ -1,8 +1,7 @@
 import React from 'react'
 
-
 export const convertirAMoneda = (precio) => {
-    return precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })
+     return precio.toLocaleString('es-PE', { style: 'currency', currency: 'COP' })
 };
 
 export const calcularPrecioConDescuento = (precio, descuento) => {
