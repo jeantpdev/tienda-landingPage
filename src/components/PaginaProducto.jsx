@@ -6,6 +6,8 @@ import { convertirAMoneda, calcularPrecioConDescuento } from '@/utils/Funct.jsx'
 
 export default function PaginaProducto(props) {
 
+    console.log(props)
+
     const [productData, setProductData] = useState({
         _id: '',
         nombre_producto: '',
@@ -58,8 +60,11 @@ export default function PaginaProducto(props) {
     <IndexActual nombreProducto = {props.nombre_producto}/>
 
     <div className="lg:grid lg:grid-cols-2 space-x-1">
-
-        <Galeria imagen_principal = {props.imagen_principal} imagenes_productos = {props.imagenes_productos} nombre_producto = {props.nombre_producto} client:load />
+        {props.imagen_principal != 'no dado' ?
+            <Galeria imagen_principal = {props.imagen_principal} imagenes_productos = {props.imagenes_productos} nombre_producto = {props.nombre_producto} client:load />
+         : 
+         <p>no hay imagenes</p>
+        }
 
         <div className="lg:flex lg:flex-col  mt-5 lg:mt-0 space-y-5">
             <div>
@@ -90,14 +95,13 @@ export default function PaginaProducto(props) {
 
             <div className='space-y-2'>
                 {(props.descuento != 0 ?
-                <div> 
-                    <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} {<span className='text-xs bg-emerald-50 p-2 text-emerald-500'>-{props.descuento}%</span>} </p>
-                    <p className="text-slate-400 line-through font-semibold text-xs">$ {convertirAMoneda(props.precio)} COP</p>
-                </div>
-                :
-                <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} </p>
-
-            )}
+                    <div> 
+                        <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} {<span className='text-xs bg-emerald-50 p-2 text-emerald-500'>-{props.descuento}%</span>} </p>
+                        <p className="text-slate-400 line-through font-semibold text-xs">$ {convertirAMoneda(props.precio)} COP</p>
+                    </div>
+                    :
+                    <p className="text-slate-700 font-semibold tracking-tight rounded-md text-xl">$ {convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento))} </p>
+                )}
             </div>
 
             <div>
