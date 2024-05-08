@@ -3,7 +3,6 @@ import {convertirAMoneda, calcularPrecioConDescuento } from '@/utils/Funct.jsx';
 
 export default function Producto(props) {
 
-
     // Crear un objeto con los parámetros
     const parametros = {
         _id: props._id,
