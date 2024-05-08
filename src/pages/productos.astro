@@ -8,6 +8,7 @@ const title = "Productos";
 const response = await fetch('https://mongodb-productos.onrender.com/productos/');
 const data = await response.json();
 const productos = data.productos
+
 ---
 
 <Layout title = {title}>
@@ -23,13 +24,16 @@ const productos = data.productos
 			<div class="flex flex-col gap-5 mt-12 mb-12 px-5 md:grid md:grid-cols-2 lg:mx-auto lg:max-w-7xl lg:grid-cols-3">
 			{productos.map((producto) => {
 				return <Producto 
-						imagen_principal = {producto.imagen_principal}
-						categoria = {producto.categoria}
-						nombre_producto = {producto.nombre_producto} 
-						descripcion = {producto.descripcion} 
-						precio = {producto.precio}
-						descuento = {producto.descuento}
-						_id = {producto._id}
+				_id = {producto._id}
+				nombre_producto = {producto.nombre_producto} 
+				categoria = {producto.categoria}
+				descripcion = {producto.descripcion} 
+				precio = {producto.precio}
+				descuento = {producto.descuento}
+				imagen_principal = {producto.imagen_principal}
+				imagenes_productos = {producto.imagenes_productos}
+				dimensiones = {producto.dimensiones}
+				material = {producto.material}
 						 />
 			})}
 		</div>

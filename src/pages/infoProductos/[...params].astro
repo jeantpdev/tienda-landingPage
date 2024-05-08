@@ -1,8 +1,9 @@
 ---
 export const prerender = false;
+
 import PaginaProducto from '@/components/PaginaProducto';
 import Layout from '../../layouts/Layout.astro';
-
+/*
 export async function getStaticPaths() {
     const response = await fetch('https://mongodb-productos.onrender.com/productos/');
     const data = await response.json();
@@ -16,23 +17,29 @@ export async function getStaticPaths() {
             producto: producto,
         },
     }));
-}
+}*/
 
-const datos_productos = Astro.props['producto']
+// Obtener la cadena de parámetros de la URL
+const parametrosCodificados = Astro.params.params;
 
-const {
-    imagen_principal,
-    imagenes_productos,
+// Decodificar la cadena JSON de los parámetros
+const parametrosDecodificados = JSON.parse(decodeURIComponent(parametrosCodificados));
+
+// Ahora puedes acceder a los parámetros como un objeto JavaScript
+const { _id, 
+    nombre_producto, 
     categoria,
-    nombre_producto,
     descripcion,
     precio,
     descuento,
+    imagen_principal,
+    imagenes_productos,
     dimensiones,
-    colores,
-    material,
-    _id,
-} = datos_productos;
+    material
+} = parametrosDecodificados;
+
+console.log("Parametros")
+console.log(parametrosDecodificados)
 
 ---
 
@@ -47,7 +54,7 @@ const {
         precio={precio},
         descuento={descuento},
         dimensiones={dimensiones},
-        colores={colores},
+        colores= "rojo",
         material={material},
         _id={_id}
         client:load
