@@ -1,9 +1,10 @@
 /* empty css                              */
-import { e as createAstro, f as createComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute, i as renderComponent, j as renderHead, k as renderSlot } from '../astro_IfUAp_ts.mjs';
+import { c as createAstro, d as createComponent, r as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderComponent, g as renderHead, h as renderSlot } from '../astro_D9paozAY.mjs';
 import 'kleur/colors';
 import 'html-escaper';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { Disclosure } from '@headlessui/react';
 import { XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import 'clsx';
@@ -144,53 +145,218 @@ const calcularPrecioXCantidad = (precio, cantidad) => {
   return convertirAMoneda(precio * cantidad);
 };
 
-function Producto(props) {
-  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-1 rounded-md shadow-lg", children: [
-    /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx("img", { src: props.imagen_principal, className: "w-full h-96 object-cover", alt: "" }),
-      props.descuento != 0 && /* @__PURE__ */ jsxs("p", { className: "absolute top-2 right-2 py-1 px-2 rounded-md bg-emerald-50 font-semibold text-emerald-400", children: [
-        "-",
-        props.descuento,
-        "%"
-      ] })
+const showAlert = (message) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+  Toast.fire({
+    icon: "success",
+    title: message
+  });
+};
+
+function Galeria(props) {
+  const srcImagenPrincipal = props.imagen_principal;
+  const srcImagenesProductos = props.imagenes_productos;
+  const [imagenPrincipal, setImagenPrincipal] = useState(srcImagenPrincipal);
+  const [imagenSeleccionada, setImagenSeleccionada] = useState(0);
+  return /* @__PURE__ */ jsxs("div", { className: "space-y-2 lg:flex lg:flex-row-reverse lg:justify-center lg:space-x-2 lg:gap-x-2", children: [
+    /* @__PURE__ */ jsx("div", { className: "md:grid md:items-center lg:justify-center", children: /* @__PURE__ */ jsx(
+      "img",
+      {
+        src: imagenPrincipal,
+        className: "w-full lg:w-96",
+        alt: `${props.nombre_producto} producto`
+      }
+    ) }),
+    /* @__PURE__ */ jsx("div", { className: "flex gap-x-2 overflow-auto lg:flex lg:flex-col lg:h-96 lg:gap-y-2 ", children: srcImagenesProductos.map((imagen, index) => /* @__PURE__ */ jsx(
+      "img",
+      {
+        onClick: () => {
+          setImagenPrincipal(imagen);
+          setImagenSeleccionada(index);
+        },
+        src: imagen,
+        className: `w-20 lg:h-20 lg:w-full cursor-pointer ${index === imagenSeleccionada ? "border-2 border-slate-500" : ""}`,
+        alt: `${props.nombre_producto} producto`
+      },
+      index
+    )) })
+  ] });
+}
+
+function indexActual(props) {
+  return /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
+    /* @__PURE__ */ jsx("a", { href: "/", className: "text-slate-500 hover:text-black", children: "Inicio" }),
+    /* @__PURE__ */ jsxs("p", { children: [
+      " ",
+      ">",
+      " "
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "px-5", children: [
-      /* @__PURE__ */ jsx("a", { href: `/infoProductos/${props._id}`, className: "text-xl font-bold tracking-wide leading-loose text-zinc-700", children: props.nombre_producto }),
-      /* @__PURE__ */ jsx("p", { className: "text-slate-500", children: props.descripcion })
+    /* @__PURE__ */ jsx("a", { href: "/productos/", className: "text-slate-500 hover:text-black", children: "Productos" }),
+    /* @__PURE__ */ jsxs("p", { children: [
+      " ",
+      ">",
+      " "
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "p-2 text-end mb-2 space-x-2", children: [
-      props.descuento != 0 && /* @__PURE__ */ jsx("p", { className: "inline-flex text-xs font-semibold tracking-tight rounded-md text-pink-400 line-through", children: convertirAMoneda(props.precio) }),
-      /* @__PURE__ */ jsxs("p", { className: "inline-flex font-semibold tracking-tight bg-pink-50 p-2 rounded-md text-pink-400", children: [
-        "$ ",
-        calcularPrecioConDescuento(props.precio, props.descuento)
+    /* @__PURE__ */ jsx("p", { className: "font-semibold", children: props.nombreProducto })
+  ] });
+}
+
+function PaginaProducto(props) {
+  console.log(props);
+  const [productData, setProductData] = useState({
+    _id: "",
+    nombre_producto: "",
+    descripcion: "",
+    dimensiones: "",
+    material: "",
+    precio: "",
+    descuento: ""
+  });
+  useEffect(() => {
+    setProductData({
+      _id: props._id,
+      imagen_principal: props.imagen_principal,
+      nombre_producto: props.nombre_producto,
+      descripcion: props.descripcion,
+      dimensiones: props.dimensiones,
+      material: props.material,
+      precio: props.precio,
+      descuento: props.descuento
+    });
+  }, [props]);
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProductIndex = cart.findIndex((product) => product._id === productData._id);
+    if (existingProductIndex !== -1) {
+      cart[existingProductIndex].quantity += 1;
+      showAlert("Se agrego una cantidad!");
+    } else {
+      cart.push({ ...productData, quantity: 1 });
+      showAlert("Producto agregado!");
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log("Producto añadido al carrito:", productData["nombre_producto"]);
+  };
+  return /* @__PURE__ */ jsxs("div", { className: "px-5 py-10 space-y-5 md:py-20 md:max-w-xl lg:max-w-6xl md:mx-auto", children: [
+    /* @__PURE__ */ jsx(indexActual, { nombreProducto: props.nombre_producto }),
+    /* @__PURE__ */ jsxs("div", { className: "lg:grid lg:grid-cols-2 space-x-1", children: [
+      props.imagen_principal != "no dado" ? /* @__PURE__ */ jsx(Galeria, { imagen_principal: props.imagen_principal, imagenes_productos: props.imagenes_productos, nombre_producto: props.nombre_producto, "client:load": true }) : /* @__PURE__ */ jsx("p", { children: "no hay imagenes" }),
+      /* @__PURE__ */ jsxs("div", { className: "lg:flex lg:flex-col  mt-5 lg:mt-0 space-y-5", children: [
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("p", { className: "text-slate-400 text-md", children: props.categoria }),
+          /* @__PURE__ */ jsx("h2", { className: "text-2xl font-semibold text-slate-700", children: props.nombre_producto })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "text-slate-600 space-y-5", children: [
+          /* @__PURE__ */ jsx("p", { className: "text-lg", children: props.descripcion }),
+          /* @__PURE__ */ jsxs("div", { children: [
+            /* @__PURE__ */ jsxs("p", { className: "text-slate-700 text-md", children: [
+              /* @__PURE__ */ jsx("span", { className: "font-semibold", children: "Dimensiones:" }),
+              " ",
+              props.dimensiones
+            ] }),
+            /* @__PURE__ */ jsxs("p", { className: "text-slate-700 text-md", children: [
+              /* @__PURE__ */ jsx("span", { className: "font-semibold", children: "Material:" }),
+              " ",
+              props.material
+            ] })
+          ] }),
+          props.colores && /* @__PURE__ */ jsxs("div", { className: "space-y-2", children: [
+            /* @__PURE__ */ jsx("p", { className: "font-semibold", children: "Colores disponibles:" }),
+            /* @__PURE__ */ jsxs("div", { className: "flex gap-x-2", children: [
+              /* @__PURE__ */ jsx("div", { className: "w-[20px] h-[20px] bg-blue-500" }),
+              /* @__PURE__ */ jsx("div", { className: "w-[20px] h-[20px] bg-yellow-500" }),
+              /* @__PURE__ */ jsx("div", { className: "w-[20px] h-[20px] bg-slate-500" }),
+              /* @__PURE__ */ jsx("div", { className: "w-[20px] h-[20px] bg-red-500" })
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "space-y-2", children: props.descuento != 0 ? /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsxs("p", { className: "text-slate-700 font-semibold tracking-tight rounded-md text-xl", children: [
+            "$ ",
+            convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento)),
+            " ",
+            /* @__PURE__ */ jsxs("span", { className: "text-xs bg-emerald-50 p-2 text-emerald-500", children: [
+              "-",
+              props.descuento,
+              "%"
+            ] }),
+            " "
+          ] }),
+          /* @__PURE__ */ jsxs("p", { className: "text-slate-400 line-through font-semibold text-xs", children: [
+            "$ ",
+            convertirAMoneda(props.precio),
+            " COP"
+          ] })
+        ] }) : /* @__PURE__ */ jsxs("p", { className: "text-slate-700 font-semibold tracking-tight rounded-md text-xl", children: [
+          "$ ",
+          convertirAMoneda(calcularPrecioConDescuento(props.precio, props.descuento)),
+          " "
+        ] }) }),
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("button", { onClick: addToCart, className: "w-full inline items-center justify-end px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 md:py-2 md:text-lg md:px-10", children: "Agregar al carrito" }) })
       ] })
     ] })
   ] });
 }
 
+var __freeze = Object.freeze;
+var __defProp = Object.defineProperty;
+var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
+var _a;
 const $$Astro = createAstro();
 const prerender = false;
-const $$Productos = createComponent(async ($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
-  Astro2.self = $$Productos;
-  const title = "Productos";
+async function getStaticPaths() {
   const response = await fetch("https://mongodb-productos.onrender.com/productos/");
   const data = await response.json();
   const productos = data.productos;
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="mt-12"> <div class="flex flex-col space-y-10 items-center mt-20 mb-20 text-center px-4 md:max-w-4xl md:justify-center md:mx-auto"> <h1 class="text-5xl tracking-tight font-extrabold text-gray-800 sm:text-5xl text-center"> <span class="block xl:inline">Escoge el que mas te guste!</span> </h1> <p class="text-slate-400 text-xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit voluptatem dolor quo asperiores, dolorem dolores harum aliquid. Placeat, asperiores necessitatibus?</p> </div> <div class="flex flex-col gap-5 mt-12 mb-12 px-5 md:grid md:grid-cols-2 lg:mx-auto lg:max-w-7xl lg:grid-cols-3"> ${productos.map((producto) => {
-    return renderTemplate`${renderComponent($$result2, "Producto", Producto, { "imagen_principal": producto.imagen_principal, "categoria": producto.categoria, "nombre_producto": producto.nombre_producto, "descripcion": producto.descripcion, "precio": producto.precio, "descuento": producto.descuento, "_id": producto._id })}`;
-  })} </div> </div> ` })}`;
-}, "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/productos.astro", void 0);
+  return productos.map((producto) => ({
+    params: {
+      _id: producto._id
+    },
+    props: {
+      producto
+    }
+  }));
+}
+const $$Id = createComponent(async ($$result, $$props, $$slots) => {
+  const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
+  Astro2.self = $$Id;
+  const datos_productos = Astro2.props["producto"];
+  const {
+    imagen_principal,
+    imagenes_productos,
+    categoria,
+    nombre_producto,
+    descripcion,
+    precio,
+    descuento,
+    dimensiones,
+    colores,
+    material,
+    _id
+  } = datos_productos;
+  return renderTemplate(_a || (_a = __template(["", ' <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" data-astro-rerun><\/script>'])), renderComponent($$result, "Layout", $$Layout, { "title": "Detalles" }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "PaginaProducto", PaginaProducto, { "imagen_principal": imagen_principal, ",": true, "imagenes_productos": imagenes_productos, ",": true, "categoria": categoria, "nombre_producto": nombre_producto, ",": true, "descripcion": descripcion, ",": true, "precio": precio, ",": true, "descuento": descuento, ",": true, "dimensiones": dimensiones, ",": true, "colores": colores, ",": true, "material": material, ",": true, "_id": _id, "client:load": true, "client:component-hydration": "load", "client:component-path": "@/components/PaginaProducto", "client:component-export": "default" })} ` }));
+}, "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/infoProductos/[_id].astro", void 0);
 
-const $$file = "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/productos.astro";
-const $$url = "/productos";
+const $$file = "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/infoProductos/[_id].astro";
+const $$url = "/infoProductos/[_id]";
 
-const productos = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+const __id_ = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
-  default: $$Productos,
+  default: $$Id,
   file: $$file,
+  getStaticPaths,
   prerender,
   url: $$url
 }, Symbol.toStringTag, { value: 'Module' }));
 
-export { $$Layout as $, calcularPrecioXCantidad as a, convertirAMoneda as b, calcularPrecioConDescuentoYCantidad as c, calcularPrecioConDescuento as d, productos as p };
+export { $$Layout as $, __id_ as _, calcularPrecioConDescuento as a, calcularPrecioConDescuentoYCantidad as b, convertirAMoneda as c, calcularPrecioXCantidad as d };
