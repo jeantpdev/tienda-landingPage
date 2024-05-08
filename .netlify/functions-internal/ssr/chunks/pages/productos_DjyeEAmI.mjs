@@ -1,5 +1,5 @@
 /* empty css                              */
-import { c as createAstro, d as createComponent, r as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderComponent, g as renderHead, h as renderSlot } from '../astro_D9paozAY.mjs';
+import { e as createAstro, f as createComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute, i as renderComponent, j as renderHead, k as renderSlot } from '../astro_IfUAp_ts.mjs';
 import 'kleur/colors';
 import 'html-escaper';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
@@ -111,30 +111,86 @@ const $$Layout = createComponent(async ($$result, $$props, $$slots) => {
   return renderTemplate`<html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="Astro description"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator"${addAttribute(Astro2.generator, "content")}>${renderComponent($$result, "ViewTransitions", $$ViewTransitions, {})}<title>${title}</title>${renderHead()}</head> <body class=""> ${renderComponent($$result, "NavigationLight", Navigation, { "currentPage": currentPage, "client:load": true, "client:component-hydration": "load", "client:component-path": "@/components/menu/Navigation Light.jsx", "client:component-export": "default" })} ${renderSlot($$result, $$slots["default"])} ${renderComponent($$result, "BotonFlotante", $$BotonFlotante, {})} ${renderComponent($$result, "Footer", $$Footer, {})} </body></html>`;
 }, "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/layouts/Layout.astro", void 0);
 
+const convertirAMoneda = (precio) => {
+  return precio.toLocaleString("es-PE", { style: "currency", currency: "COP" });
+};
+const calcularPrecioConDescuento = (precio, descuento) => {
+  const precioNumerico = parseFloat(precio);
+  const descuentoNumerico = parseFloat(descuento);
+  let precioFinal = 0;
+  if (descuentoNumerico != 0) {
+    const precioConDescuento = precioNumerico * (1 - descuentoNumerico / 100);
+    precioFinal = precioConDescuento;
+    return convertirAMoneda(precioFinal);
+  } else {
+    precioFinal = precio;
+    return convertirAMoneda(precioFinal);
+  }
+};
+const calcularPrecioConDescuentoYCantidad = (cantidad, precio, descuento) => {
+  let total = 0;
+  const precioNumerico = parseFloat(precio);
+  const descuentoNumerico = parseFloat(descuento);
+  if (descuentoNumerico != 0) {
+    const precioConDescuento = precioNumerico * (1 - descuentoNumerico / 100);
+    total += precioConDescuento * cantidad;
+    return convertirAMoneda(total);
+  } else {
+    total += precioNumerico * cantidad;
+    return convertirAMoneda(total);
+  }
+};
+const calcularPrecioXCantidad = (precio, cantidad) => {
+  return convertirAMoneda(precio * cantidad);
+};
+
+function Producto(props) {
+  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-1 rounded-md shadow-lg", children: [
+    /* @__PURE__ */ jsxs("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx("img", { src: props.imagen_principal, className: "w-full h-96 object-cover", alt: "" }),
+      props.descuento != 0 && /* @__PURE__ */ jsxs("p", { className: "absolute top-2 right-2 py-1 px-2 rounded-md bg-emerald-50 font-semibold text-emerald-400", children: [
+        "-",
+        props.descuento,
+        "%"
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "px-5", children: [
+      /* @__PURE__ */ jsx("a", { href: `/infoProductos/${props._id}`, className: "text-xl font-bold tracking-wide leading-loose text-zinc-700", children: props.nombre_producto }),
+      /* @__PURE__ */ jsx("p", { className: "text-slate-500", children: props.descripcion })
+    ] }),
+    /* @__PURE__ */ jsxs("div", { className: "p-2 text-end mb-2 space-x-2", children: [
+      props.descuento != 0 && /* @__PURE__ */ jsx("p", { className: "inline-flex text-xs font-semibold tracking-tight rounded-md text-pink-400 line-through", children: convertirAMoneda(props.precio) }),
+      /* @__PURE__ */ jsxs("p", { className: "inline-flex font-semibold tracking-tight bg-pink-50 p-2 rounded-md text-pink-400", children: [
+        "$ ",
+        calcularPrecioConDescuento(props.precio, props.descuento)
+      ] })
+    ] })
+  ] });
+}
+
 const $$Astro = createAstro();
-const $$AcercaDe = createComponent(async ($$result, $$props, $$slots) => {
+const prerender = false;
+const $$Productos = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
-  Astro2.self = $$AcercaDe;
-  const title = "Acerca de";
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="flex flex-col justify-center items-center py-12"> <div class=""> <div class="flex flex-col gap-y-5 p-5 xl:grid xl:grid-cols-2 sm:max-w-7xl"> <figure class="grid justify-center xl:justify-start"> <img class="rounded-lg w-[500px] h-[400px] object-contain" src="/gift.jpg" alt=""> </figure> <div class="rounded-lg p-5 sm:w-[620px] sm:min-h-[400px]"> <h2 class="mb-5 text-5xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-5xl">
-Mision
-</h2> <p class="text-gray-500">
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit voluptas nam quisquam totam cum rem quis, accusantium illum ut ducimus maxime, nemo repellendus aliquam debitis! Quia magnam harum ad cum.
-</p> </div> </div> </div> <div class=""> <div class="flex flex-col gap-y-5 p-5 xl:grid xl:grid-cols-2 sm:max-w-7xl"> <figure class="grid justify-center xl:justify-end xl:order-2 "> <img class="rounded-lg w-[500px] h-[400px] object-contain" src="/gift.jpg" alt=""> </figure> <div class="rounded-lg p-5 sm:w-[620px] sm:min-h-[400px]"> <h2 class="mb-5 text-5xl tracking-tight font-extrabold text-gray-800 sm:text-5xl md:text-5xl">
-Vision
-</h2> <p class="text-gray-500">
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique maiores nemo illo perferendis, deleniti itaque natus, cupiditate, amet ut ipsa voluptas quibusdam reiciendis animi magnam officia nisi tenetur nostrum dolores vero dolorem dicta excepturi corporis! Aperiam repellendus fugit vitae accusantium.
-</p> </div> </div> </div> </div> ` })}`;
-}, "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/acerca-de.astro", void 0);
+  Astro2.self = $$Productos;
+  const title = "Productos";
+  const response = await fetch("https://mongodb-productos.onrender.com/productos/");
+  const data = await response.json();
+  const productos = data.productos;
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="mt-12"> <div class="flex flex-col space-y-10 items-center mt-20 mb-20 text-center px-4 md:max-w-4xl md:justify-center md:mx-auto"> <h1 class="text-5xl tracking-tight font-extrabold text-gray-800 sm:text-5xl text-center"> <span class="block xl:inline">Escoge el que mas te guste!</span> </h1> <p class="text-slate-400 text-xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit voluptatem dolor quo asperiores, dolorem dolores harum aliquid. Placeat, asperiores necessitatibus?</p> </div> <div class="flex flex-col gap-5 mt-12 mb-12 px-5 md:grid md:grid-cols-2 lg:mx-auto lg:max-w-7xl lg:grid-cols-3"> ${productos.map((producto) => {
+    return renderTemplate`${renderComponent($$result2, "Producto", Producto, { "imagen_principal": producto.imagen_principal, "categoria": producto.categoria, "nombre_producto": producto.nombre_producto, "descripcion": producto.descripcion, "precio": producto.precio, "descuento": producto.descuento, "_id": producto._id })}`;
+  })} </div> </div> ` })}`;
+}, "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/productos.astro", void 0);
 
-const $$file = "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/acerca-de.astro";
-const $$url = "/acerca-de";
+const $$file = "C:/Users/Bradl/OneDrive/Documentos/Programacion y otros proyectos/astro/En proceso/tienda-landingPage/src/pages/productos.astro";
+const $$url = "/productos";
 
-const acercaDe = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+const productos = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
-  default: $$AcercaDe,
+  default: $$Productos,
   file: $$file,
+  prerender,
   url: $$url
 }, Symbol.toStringTag, { value: 'Module' }));
 
-export { $$Layout as $, acercaDe as a };
+export { $$Layout as $, calcularPrecioXCantidad as a, convertirAMoneda as b, calcularPrecioConDescuentoYCantidad as c, calcularPrecioConDescuento as d, productos as p };
