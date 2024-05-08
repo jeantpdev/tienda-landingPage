@@ -9,6 +9,8 @@ export async function getStaticPaths() {
     const data = await response.json();
     const productos = data.productos
 
+    console.log(productos)
+
     return productos.map((producto) => ({
         params: {
             _id: producto._id,
