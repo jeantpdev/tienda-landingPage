@@ -2,10 +2,20 @@ import React, { useState, useEffect } from 'react';
 import ProductoCheckout from './componentes-checkout/ProductoCheckout';
 import { showConfirmDialog, showAlert } from '@/utils/Alerts.jsx';
 import { convertirAMoneda } from '@/utils/Funct.jsx';
+import { crearPedido } from '@/utils/apiPedidos';
 
 export default function Carrito() {
     const [cart, setCart] = useState([]);
     let [precioTotal, setPrecioTotal] = useState(0)
+
+    const [datosCliente, setDatosCliente] = useState({
+        nombre : '',
+        apellido : '',
+        correo : '',
+        numero : '',
+        ciudad : '',
+        direccion : '',
+    })
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -44,34 +54,67 @@ export default function Carrito() {
         
         setPrecioTotal(convertirAMoneda(total));
     };    
-    
 
+    const enviarPedido = (event) => {
+        event.preventDefault();
+        // Eliminar campos no deseados del carrito y añadir el precio con descuento
+        const carritoModificado = cart.map(producto => {
+            // Copiar el producto para no modificar el original
+            const productoModificado = { ...producto };
+            // cambios de nombres
+            productoModificado.total = productoModificado.precio;
+            productoModificado.cantidad = productoModificado.quantity;
+            // Calcular el precio con descuento
+            const precioNumerico = parseFloat(productoModificado.precio);
+            const descuentoNumerico = parseFloat(productoModificado.descuento);
+            const precioConDescuento = descuentoNumerico !== 0 ? precioNumerico * (1 - (descuentoNumerico / 100)) : precioNumerico;
+            // Añadir el precio con descuento al producto modificado
+            productoModificado.precio_total = precioConDescuento;
+            // Eliminar campos no deseados
+            delete productoModificado.imagen_principal;
+            delete productoModificado._id;
+            delete productoModificado.quantity;
+            delete productoModificado.descripcion;
+            delete productoModificado.dimensiones;
+            delete productoModificado.precio; // se le cmabia el nombre por "total"
+            return productoModificado;
+        });
+    
+        // Construir objeto pedido sin campos no deseados y con precio con descuento
+        const pedido = {
+            datosCliente: datosCliente,
+            pedido: carritoModificado
+        };
+    
+        crearPedido(pedido)
+    };
+    
     return (
         <div className="grid max-w-2xl mx-auto py-10 px-5 space-y-5 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:space-x-20">
 
             {/* Formulario */}
             <div className='order-2 lg:order-1'>
                 <div className="p-5">
-                    <form action="" className="flex flex-col space-y-2">
+                    <form action="" onSubmit={enviarPedido} className="flex flex-col space-y-2">
                         <label htmlFor="" className='font-semibold'>Nombre</label>
-                        <input type="text" placeholder='nombre' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
-
+                        <input type="text" onChange={(e) => setDatosCliente({...datosCliente, nombre: e.target.value})} value = {datosCliente.nombre} placeholder='nombre' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
                         <label htmlFor="" className='font-semibold'>Apellido</label>
-                        <input type="text" placeholder='apellido' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
-
+                        <input type="text" onChange={(e) => setDatosCliente({...datosCliente, apellido: e.target.value})} value = {datosCliente.apellido} placeholder='apellido' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
                         <label htmlFor="" className='font-semibold'>Numero (whatsapp)</label>
-                        <input type="text" placeholder='numero' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
+                        <input type="text" onChange={(e) => setDatosCliente({...datosCliente, numero: e.target.value})} value = {datosCliente.numero} placeholder='numero' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
+                        <label htmlFor="" className='font-semibold'>Correo</label>
+                        <input type="email" onChange={(e) => setDatosCliente({...datosCliente, correo: e.target.value})} value = {datosCliente.correo} placeholder='ejemplo@gmail.com' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
                         <label htmlFor="" className='font-semibold'>Ciudad</label>
-                        <input type="text" placeholder='ciudad' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
+                        <input type="text" onChange={(e) => setDatosCliente({...datosCliente, ciudad: e.target.value})} value = {datosCliente.ciudad} placeholder='ciudad' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
                         <label htmlFor="" className='font-semibold'>Direccion</label>
-                        <input type="text" placeholder='direccion' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
+                        <input type="text" onChange={(e) => setDatosCliente({...datosCliente, direccion: e.target.value})} value = {datosCliente.direccion} placeholder='direccion' className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" />
 
-                        <button className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 md:py-2 md:text-lg md:px-10">
+                        <button type='submit' className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600 md:py-2 md:text-lg md:px-10">
                         Realizar pedido
                         </button>
                     </form>

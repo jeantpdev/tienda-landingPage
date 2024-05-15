@@ -26,5 +26,3 @@ export default function ProductoCheckout({children, props}) {
     </div>
   )
 }
-
-
